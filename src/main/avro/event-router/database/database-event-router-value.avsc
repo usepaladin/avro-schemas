@@ -1,0 +1,99 @@
+{
+  "type": "record",
+  "name": "DatabaseEventRouterValueAv",
+  "namespace": "paladin.avro.database",
+  "doc": "This is an avro schema representing the key that is used when an event is passed to the event router, to be redirected to its target message broker",
+  "fields": [
+    {
+      "name": "brokerName",
+      "doc": "The Unique configured identifier of the broker to relay the message to",
+      "type": "string"
+    },
+    {
+      "name": "brokerType",
+      "doc": "The type of Message Broker to relay the message to",
+      "type": {
+        "type": "enum",
+        "name": "BrokerType",
+        "symbols": [
+          "KAFKA",
+          "RABBITMQ",
+          "SQS",
+          "KINESIS",
+          "PULSAR"
+        ]
+      }
+    },
+    {
+      "name": "brokerFormat",
+        "doc": "The format of the message to be relayed",
+        "type": {
+          "type": "enum",
+          "name": "BrokerFormat",
+          "symbols": [
+            "AVRO",
+            "JSON",
+            "PROTOBUF"
+          ]
+        }
+    },
+    {
+      "name": "payload",
+        "doc": "The payload of the message to be relayed",
+      "type": {
+        "type": "record",
+        "name": "ChangeEventData",
+        "fields": [
+          {
+            "name": "operation",
+            "type": {
+              "type": "enum",
+              "name": "ChangeEventOperation",
+              "symbols": [
+                "CREATE",
+                "UPDATE",
+                "DELETE",
+                "SNAPSHOT",
+                "OTHER"
+              ]
+            }
+          },
+          {
+            "name": "before",
+            "type": ["null",{
+              "type": "map",
+              "values": "string"
+            }],
+            "default": null
+          },
+          {
+            "name": "after",
+            "type": ["null",{
+              "type": "map",
+              "values": "string"
+            }],
+            "default": null
+          },
+          {
+            "name": "source",
+            "type": ["null",{
+              "type": "map",
+              "values": "string"
+            }],
+            "default": null
+          },
+          {
+            "name": "timestamp",
+            "type": ["null", "long"],
+            "default": null
+          },
+          {
+            "name": "table",
+            "type": ["null", "string"],
+            "default": null
+          }
+        ]
+      }
+    }
+  ]
+}
