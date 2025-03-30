@@ -6,6 +6,7 @@ plugins {
     id("org.springframework.boot") version "3.4.4"
     id("io.spring.dependency-management") version "1.1.7"
     id("com.github.davidmc24.gradle.plugin.avro") version "1.9.1"
+    id("maven-publish")
 }
 
 group = "Paladin"
@@ -48,8 +49,37 @@ kotlin {
     }
 }
 
+sourceSets{
+    main{
+        java{
+            srcDirs("${layout.buildDirectory}/generated-main-avro-java")
+        }
+    }
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/usepaladin/avro-schemas")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
+                password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        register<MavenPublication>("avroModels") {
+            groupId = "paladin.avro"
+            artifactId = "avro-models"
+            version = "0.0.1-SNAPSHOT"
+            from(components["java"])
+        }
+    }
 }
 
 
