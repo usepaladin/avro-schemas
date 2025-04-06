@@ -19,7 +19,7 @@
           "KAFKA",
           "RABBITMQ",
           "SQS",
-          "KINESIS",
+          "MQTT",
           "PULSAR"
         ]
       }
@@ -36,6 +36,24 @@
             "PROTOBUF"
           ]
         }
+    },
+    {
+      "name": "topic",
+        "doc": "The topic to relay the message to",
+        "type": "string"
+    },
+    {
+      "name": "topicSchema",
+      "doc": "The schema of the topic that the payload must adhere to and be converted to",
+      "type": ["null", "string"]
+    },
+    {
+      "name": "payloadAttributes",
+      "doc": "Specific attributes of the payload that will be sent to the target topic, ignoring the rest of the payload",
+        "type": ["null",{
+            "type": "map",
+            "values": "string"
+        }]
     },
     {
       "name": "payload",
