@@ -5,75 +5,80 @@
   "doc": "This is an avro schema representing the key that is used when an event is passed to the event router, to be redirected to its target message broker",
   "fields": [
     {
-      "name": "brokerName",
-      "doc": "The Unique configured identifier of the broker to relay the message to",
-      "type": "string"
-    },
-    {
-      "name": "brokerType",
-      "doc": "The type of Message Broker to relay the message to",
+      "name": "brokers",
       "type": {
-        "type": "enum",
-        "name": "BrokerType",
-        "symbols": [
-          "KAFKA",
-          "RABBITMQ",
-          "SQS"
-        ]
+        "type": "array",
+        "items": {
+          "name": "Broker",
+          "type": "record",
+          "doc": "The broker to which the message will be sent",
+          "fields": [
+            {
+              "name": "brokerName",
+              "doc": "The Unique configured identifier of the broker to relay the message to",
+              "type": "string"
+            },
+            {
+              "name": "brokerType",
+              "doc": "The type of Message Broker to relay the message to",
+              "type": {
+                "type": "enum",
+                "name": "BrokerType",
+                "symbols": ["KAFKA", "RABBITMQ", "SQS"]
+              }
+            },
+            {
+              "name": "keyFormat",
+              "doc": "The format that the message's key (If applicable dependant on broker) will be converted into",
+              "type": ["null", {
+                "type": "enum",
+                "name": "BrokerFormat",
+                "symbols": ["STRING", "AVRO", "JSON"]
+              }],
+              "default": null
+            },
+            {
+              "name": "valueFormat",
+              "doc": "The format that the message's value will be converted into",
+              "type": "BrokerFormat"
+            },
+            {
+              "name": "topic",
+              "doc": "The topic to relay the message to",
+              "type": "string"
+            },
+            {
+              "name": "topicKeySchema",
+              "doc": "The schema of the topic that the payload must adhere to and be converted to",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "topicValueSchema",
+              "doc": "The schema of the topic that the payload must adhere to and be converted to",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "payloadAttributes",
+              "doc": "Specific attributes of the payload that will be sent to the target topic, ignoring the rest of the payload",
+              "type": ["null", {
+                "type": "map",
+                "values": "string"
+              }]
+            },
+            {
+              "name": "payloadKey",
+              "doc": "The key of the payload that will be sent to the target topic, ignoring the rest of the payload",
+              "type": ["null", "string", {
+                "type": "map",
+                "values": "string"
+              }],
+              "default": null
+            }
+          ]
+        }
       }
-    },
-    {
-      "name": "keyFormat",
-      "doc": "The format that the message's key (If applicable dependant on broker) will be converted into",
-      "type": ["null", {
-        "type": "enum",
-        "name": "BrokerFormat",
-        "symbols": [
-          "STRING",
-          "AVRO",
-          "JSON"
-        ]
-      }],
-      "default": null
-    },
-    {
-      "name": "valueFormat",
-        "doc": "The format that the message's value will be converted into",
-        "type": "BrokerFormat"
-    },
-    {
-      "name": "topic",
-        "doc": "The topic to relay the message to",
-        "type": "string"
-    },
-    {
-      "name": "topicKeySchema",
-      "doc": "The schema of the topic that the payload must adhere to and be converted to",
-      "type": ["null", "string"],
-      "default": null
-    },
-    {
-      "name": "topicValueSchema",
-      "doc": "The schema of the topic that the payload must adhere to and be converted to",
-      "type": ["null", "string"],
-      "default": null
-    },
-    {
-      "name": "payloadAttributes",
-      "doc": "Specific attributes of the payload that will be sent to the target topic, ignoring the rest of the payload",
-        "type": ["null",{
-            "type": "map",
-            "values": "string"
-        }]
-    },
-    {
-      "name": "payloadKey",
-        "doc": "The key of the payload that will be sent to the target topic, ignoring the rest of the payload",
-        "type": ["null", "string", {
-            "type": "map",
-            "values": "string"
-        }],
-        "default": null
     },
     {
       "name": "payload",

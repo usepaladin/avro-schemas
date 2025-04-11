@@ -76,7 +76,7 @@ publishing {
         register<MavenPublication>("avroModels") {
             groupId = "paladin.avro"
             artifactId = "avro-models"
-            version = "0.0.5-SNAPSHOT"
+            version = "0.0.8-SNAPSHOT"
             from(components["java"])
         }
     }
