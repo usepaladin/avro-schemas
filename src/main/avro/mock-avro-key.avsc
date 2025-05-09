@@ -1,0 +1,25 @@
+{
+  "type": "record",
+  "name": "MockKeyAv",
+  "namespace": "paladin.avro",
+  "doc": "Mock Avro schema to represent an kafka key payload for testing purposes",
+  "fields": [
+    {
+      "name": "id",
+        "type": "string",
+        "doc": "The id of the object that is being changed"
+    },
+    {
+      "name": "eventType",
+        "type": {
+            "type": "enum",
+            "name": "EventType",
+            "symbols": [
+            "CREATE",
+            "UPDATE",
+            "DELETE"
+            ]
+        }
+    }
+  ]
+}

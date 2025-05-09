@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "DatabaseEventRouterValueAv",
-  "namespace": "paladin.avro.database",
+  "namespace": "paladin.avro",
   "doc": "This is an avro schema representing the key that is used when an event is passed to the event router, to be redirected to its target message broker",
   "fields": [
     {

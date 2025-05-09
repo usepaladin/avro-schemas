@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "Paladin"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.9-SNAPSHOT"
 
 java {
     toolchain {
@@ -76,7 +76,7 @@ publishing {
         register<MavenPublication>("avroModels") {
             groupId = "paladin.avro"
             artifactId = "avro-models"
-            version = "0.0.8-SNAPSHOT"
+            version = version
             from(components["java"])
         }
     }
